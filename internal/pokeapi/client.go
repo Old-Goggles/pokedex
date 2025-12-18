@@ -2,10 +2,12 @@ package pokeapi
 
 import (
 	"net/http"
+	"pokedex/internal/pokecache"
 	"time"
 )
 
 type Client struct {
+	cache      pokecache.Cache
 	httpClient http.Client
 }
 

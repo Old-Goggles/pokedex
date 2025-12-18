@@ -8,8 +8,14 @@ import (
 
 func (c *Client) ListLocations(pageURL *string) (RespShallowLocations, error) {
 	url := baseURL + "/location-area"
+	var locationsResp RespShallowLocations
 	if pageURL != nil {
 		url = *pageURL
+	}
+
+	if data, ok := c.cache.Get(url); ok {
+		json.Unmarshal(data, &locationsResp)
+		return locationsResp, nil
 	}
 
 	req, err := http.NewRequest("GET", url, nil)
@@ -28,7 +34,8 @@ func (c *Client) ListLocations(pageURL *string) (RespShallowLocations, error) {
 		return RespShallowLocations{}, err
 	}
 
-	var locationsResp RespShallowLocations
+	c.cache.Add(url, dat)
+
 	err = json.Unmarshal(dat, &locationsResp)
 	if err != nil {
 		return RespShallowLocations{}, err
