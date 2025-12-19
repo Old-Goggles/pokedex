@@ -4,10 +4,16 @@ import (
 	"time"
 
 	"pokedex/internal/pokeapi"
+	"pokedex/internal/pokecache"
 )
 
-var pokeClient = pokeapi.NewClient(5 * time.Second)
-
 func main() {
-	startRepl()
+	cache := pokecache.NewCache(5 * time.Minute)
+	client := pokeapi.NewClient(5*time.Second, cache)
+
+	cfg := config{
+		pokeClient: client,
+	}
+
+	startRepl(&cfg)
 }

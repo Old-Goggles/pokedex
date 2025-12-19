@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func commandMapB(cfg *config) error {
+func commandMapB(cfg *config, args ...string) error {
 	// 1. If there is no previous page, print message and return
 	if cfg.previous == "" {
 		fmt.Println("you're on the first page")
@@ -12,7 +12,7 @@ func commandMapB(cfg *config) error {
 	// 2. Use cfg.previous as the page URL
 	pageURL := cfg.previous
 
-	resp, err := pokeClient.ListLocations(&pageURL)
+	resp, err := cfg.pokeClient.ListLocations(&pageURL)
 	if err != nil {
 		return err
 	}

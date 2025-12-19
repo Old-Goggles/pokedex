@@ -4,13 +4,13 @@ import (
 	"fmt"
 )
 
-func commandMap(cfg *config) error {
+func commandMap(cfg *config, args ...string) error {
 	var pageURL *string
 	if cfg.next != "" {
 		pageURL = &cfg.next
 	}
 
-	resp, err := pokeClient.ListLocations(pageURL)
+	resp, err := cfg.pokeClient.ListLocations(pageURL)
 	if err != nil {
 		return err
 	}

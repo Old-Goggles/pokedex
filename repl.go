@@ -4,18 +4,20 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"pokedex/internal/pokeapi"
 	"strings"
 )
 
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, ...string) error
 }
 
 type config struct {
-	next     string
-	previous string
+	pokeClient pokeapi.Client
+	next       string
+	previous   string
 }
 
 var commands = map[string]cliCommand{
@@ -39,6 +41,11 @@ var commands = map[string]cliCommand{
 		description: "Displays Previous Locations in Pokemon World",
 		callback:    commandMapB,
 	},
+	"explore": {
+		name:        "explore",
+		description: "Lists the Pokemon located in an area",
+		callback:    commandExplore,
+	},
 }
 
 func cleanInput(text string) []string {
@@ -49,9 +56,7 @@ func cleanInput(text string) []string {
 	return field
 }
 
-func startRepl() {
-	cfg := config{}
-
+func startRepl(cfg *config) {
 	reader := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print("Pokedex > ")
@@ -63,10 +68,14 @@ func startRepl() {
 		}
 
 		commandName := words[0]
+		args := []string{}
+		if len(words) > 1 {
+			args = words[1:]
+		}
 
 		command, exists := commands[commandName]
 		if exists {
-			err := command.callback(&cfg)
+			err := command.callback(cfg, args...)
 			if err != nil {
 				fmt.Println(err)
 			}
