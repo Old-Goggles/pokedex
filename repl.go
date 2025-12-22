@@ -52,6 +52,11 @@ var commands = map[string]cliCommand{
 		description: "Attempts to catch a pokemon",
 		callback:    commandCatch,
 	},
+	"inspect": {
+		name:        "inspect",
+		description: "Allow players to see details about a Pokemon",
+		callback:    commandInspect,
+	},
 }
 
 func cleanInput(text string) []string {
