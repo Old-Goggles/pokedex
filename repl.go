@@ -18,6 +18,7 @@ type config struct {
 	pokeClient pokeapi.Client
 	next       string
 	previous   string
+	pokedex    map[string]pokeapi.Pokemon
 }
 
 var commands = map[string]cliCommand{
@@ -45,6 +46,11 @@ var commands = map[string]cliCommand{
 		name:        "explore",
 		description: "Lists the Pokemon located in an area",
 		callback:    commandExplore,
+	},
+	"catch": {
+		name:        "catch",
+		description: "Attempts to catch a pokemon",
+		callback:    commandCatch,
 	},
 }
 

@@ -1,10 +1,9 @@
 package main
 
 import (
-	"time"
-
 	"pokedex/internal/pokeapi"
 	"pokedex/internal/pokecache"
+	"time"
 )
 
 func main() {
@@ -13,6 +12,7 @@ func main() {
 
 	cfg := config{
 		pokeClient: client,
+		pokedex:    make(map[string]pokeapi.Pokemon),
 	}
 
 	startRepl(&cfg)
