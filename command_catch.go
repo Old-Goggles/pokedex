@@ -30,6 +30,7 @@ func commandCatch(cfg *config, args ...string) error {
 	catchRoll := rand.Intn(100)
 	if catchRoll < chance {
 		fmt.Printf("%s was caught!\n", p.Name)
+		fmt.Printf("You may now inspect it with the inspect command")
 		cfg.pokedex[p.Name] = p
 	} else {
 		fmt.Printf("%s escaped!\n", p.Name)
